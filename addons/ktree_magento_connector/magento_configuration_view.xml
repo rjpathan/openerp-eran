@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+<!--           <record model="res.groups" context="{'noadmin':True}" id="group_magento_connector">-->
+<!--              <field name="name">Magento Connector</field>-->
+<!--           </record>-->
+		    
+			<menuitem id="menu_magento_syn" name="Magento"  />
+			#######Magneto Import Menus##############################################################################
+			<menuitem id="magento_openerp_syn_import" parent="menu_magento_syn" name="Import from Magento" />
+			
+			<menuitem name="Import categories " action="action_wizard_magneto_categories_import" parent="magento_openerp_syn_import" 
+			    id="magento_openerp_syn_category_import" sequence="2"/>
+		    <menuitem name="Import products"  action="action_wizard_magneto_products_import" parent="magento_openerp_syn_import" 
+		        id="magento_openerp_syn_products_import" sequence="3"/>
+			<menuitem name="Import Customers" action="action_wizard_magneto_customer_import" parent="magento_openerp_syn_import" 
+			    id="magento_openerp_syn_customer_import" sequence="4"/>
+			<menuitem name="Import orders"  action="action_wizard_magneto_order_import" parent="magento_openerp_syn_import"
+			    id="magento_openerp_syn_order_import"    sequence="5"/>    
+			<menuitem name="Initialize stock" action="action_wizard_magneto_stock_import" parent="magento_openerp_syn_import" 
+			    id="magento_openerp_syn_stock_import" sequence="7"/>        
+		<menuitem name="Import Credit Memo" action="action_wizard_magneto_credit_memo_import" parent="magento_openerp_syn_import" 
+		    id="magento_openerp_syn_credit_memo_import" sequence="6"/>         
+			#########################################################################################################
+			#######Magneto Export Menus##############################################################################
+			<menuitem id="magento_openerp_syn_export" parent="menu_magento_syn" name="Export to Magento" />
+			<menuitem name="Export Stock" action="action_wizard_magneto_stock_export" parent="magento_openerp_syn_export" 
+			    id="magento_openerp_syn_stock_export" sequence="1"/>
+			<menuitem name="Export Category" action="action_wizard_magneto_category_export" parent="magento_openerp_syn_export" 
+			    id="magento_openerp_syn_category_export" sequence="2"/>
+			<menuitem name="Export Products " action="action_wizard_magneto_product_export" parent="magento_openerp_syn_export" 
+			    id="magento_openerp_syn_product_export" sequence="3"/>
+			<menuitem name="Export Customers " action="action_wizard_magneto_customer_export1" parent="magento_openerp_syn_export"
+			    id="magento_openerp_syn_customer_export" sequence="4"/> 
+			<menuitem name="Export Invoice " action="action_wizard_magneto_invoice_export" parent="magento_openerp_syn_export" 
+			    id="magento_openerp_syn_invoice_export" sequence="5"/>     
+			<menuitem name="Export Delivery" action="action_wizard_magneto_delivery_export1" parent="magento_openerp_syn_export" 
+			    id="magento_openerp_syn_delivery_export" sequence="6"/>      
+			#########################################################################################################
+			<record model="ir.ui.view" id="view_magento_syn_form">
+				<field name="name">magento.configuration.form</field>
+				<field name="model">magento.configuration</field>
+				<field eval="7" name="priority"/>
+				<field name="arch" type="xml">
+					<form string="Magento Configuration" version="7.0">
+<!--					    <header>-->
+<!--					    <button name="%(action_wizard_magneto_categories_import)d" string="Import categories"  type="action" />-->
+<!--					    </header>-->
+					   
+					    <sheet>
+						<separator string="Magento Configuration" colspan="4" />
+						<newline />
+						<group>
+						<field name="name" />
+						<field name="url" required="1" />
+						
+						<field name="api_user" required="1"/>
+						<field name="api_pwd" required="1"/>	
+						<field name="sync_status"/>
+						</group>				
+						
+						<notebook>
+                        <page string="Product">
+                        <group>
+                        
+                        <field name="default_category" />
+                        <field name="last_imported_category_timestamp" />
+                        <field name="last_imported_product_timestamp" />
+                       
+						<field name="max_number_product_import" />
+						
+						<field name="inital_stock_location" />
+						</group>
+                        </page>
+                        <page string="Customer">
+                        <group>
+                         <field name="last_imported_customer_timestamp" />
+                         <field name="max_number_customer_import"/>
+                         </group>
+                        </page>
+                        <page string="Sale Order">
+                        <group>
+                        <field name="shipping_product" />	
+						<field name="payment_journal" />
+						<field name="max_number_order_import" />
+						<field name="last_updated_order_timestamp" />
+						<field name="last_exported_order_timestamp" />
+						<field name="last_imported_invoice_timestamp" />
+						<field name="last_imported_credit_timestamp" readonly="1"/>
+						</group>
+                        </page>
+                        </notebook>
+						</sheet>
+<!--						<footer>-->
+<!--					    <button name="%(action_wizard_magneto_stock_export)d" string="Export Stock"  type="action" />-->
+<!--					    </footer>	-->
+					</form>
+				</field>
+			</record>
+			<record model="ir.ui.view" id="view_magento_syn_tree">
+				<field name="name">magento.configuration.tree</field>
+				<field name="model">magento.configuration</field>
+				<field eval="7" name="priority"/>
+				<field name="arch" type="xml">
+					<tree string="Magento Configuration">
+						<field name="name" />
+						<field name="url" />
+					</tree>
+				</field>
+			</record>
+			
+			<record model="ir.actions.act_window" id="action_magento_openerp_syn_form">
+				<field name="name">Magento</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">magento.configuration</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+				<field name="view_id" ref="view_magento_syn_tree"/>
+			</record>
+			
+			<menuitem name="Magento Settings" action="action_magento_openerp_syn_form" parent="magento_openerp_syn_import" 
+			    id="menu_magento_openerp_syn"   sequence="1"/>
+			    
+			#To View Number of records imported/Exported
+			<record id="number_record_import_export_tree" model="ir.ui.view">
+              <field name="name">Number Of Records Import/Export</field>
+              <field name="model">number.record.import.export</field>
+              <field name="type">form</field>
+              <field name="arch" type="xml">
+                <form string="Number Of Records Import/Export">
+                   <field name="name" nolabel="1" readonly="1"/>
+                </form>
+              </field>
+            </record>
+    </data>
+</openerp>

@@ -1,0 +1,243 @@
+<openerp>
+    <data>
+
+        <record id="view_pos_category_form" model="ir.ui.view">
+            <field name="name">pos.category.form.inherit</field>
+            <field name="model">pos.category</field>
+            <field name="inherit_id" ref="point_of_sale.pos_category_form_view" />
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='sequence']/../.." position="after">
+                               <notebook>
+                         <page string="Shops">
+                               <field name="shop_ids"  nolabel="1"/>
+                       </page>
+                 </notebook>
+            </xpath>
+                 </field>
+        </record>
+        
+        
+        
+        <!-- ########################        added#########################-->
+
+		
+    <record model="ir.ui.view" id="view_pos_scrap_move_form">
+            <field name="name">pos.scrap.move</field>
+            <field name="model">pos.scrap.move</field>
+            <field name="arch" type="xml">
+                <form string="Point of Sale Orders" version="7.0">
+                <group>
+                	<field name="qty"/>
+                </group>	
+               	<button name="create_action_move" String="Submit" type="object" class="oe_highlight" context="{'qty':qty}"/>
+               	or
+                <button string="Cancel" class="oe_link" special="cancel"/>
+                </form>
+           </field>
+       </record>
+       		
+	   <record id="action_move_scrap3" model="ir.actions.act_window">
+            <field name="name">move scrap</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.scrap.move</field>
+			<field name="src_model">pos.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_pos_scrap_move_form"/>
+       </record>
+
+<!--######################## end ##############################-->
+        
+        
+        <record id="view_pos_pos_form_inherit_kt" model="ir.ui.view">
+            <field name="name">pos.order.form.inherit</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form" />
+            <field name="arch" type="xml">
+                  <button name="refund" string="Return Products" type="object" attrs="{'invisible':[('state','=','draft')]}"  position="after">
+                  			<button name="refund_taxes" string="Return Taxes" type="object" attrs="{'invisible':['|',('state','=','draft'),('return','=',True)]}"/>
+                            <button name="create_credit_memo" String="Credit Note" type="object" states="draft" context="{'test':'test'}"/>
+                  </button>
+			      <field name="partner_id" position="after">
+                  		<field name="credit_valid" invisible="1"/>
+                  		<field name="return" invisible="1"/>
+                  </field>
+<!-- ######################                  added   #######################                     -->
+                   <field name="price_subtotal_incl" position="after">
+                   			  <field name="return_pro" invisible="1"/> 
+                   			  <field name="qty_stocked" attrs="{'invisible':[('return_pro','=',False)]}"/>
+                              <field name="qty_moved" attrs="{'invisible':[('return_pro','=',False)]}"/>
+                              <field name='pay' invisible="1"/>
+                              <field name="in_visible_button" invisible="1"/>
+<!--                        	  <button name="%(action_move_scrap3)d" string="Move to Scrap" icon="terp-gtk-jump-to-ltr" type="action" attrs="{'invisible':[('in_visible_button','=',True)]}" context="{'move_to_scrap':1}"/>-->
+<!--                        	  <button name="%(action_move_scrap3)d" string="Move to Stock" icon="terp-gtk-jump-to-rtl" type="action" attrs="{'invisible':[('qty_moved','&lt;',1)]}" context="{'move_to_stock':1}"/>-->
+							  <button name="launch_scrap" string="Move to Scrap" icon="terp-gtk-jump-to-ltr" type="object" attrs="{'invisible':[('in_visible_button','=',True)]}" context="{'move_to_scrap':1}"/>
+                        	  <button name="launch_stock" string="Move to Stock" icon="terp-gtk-jump-to-rtl" type="object" context="{'move_to_stock':1}" attrs="{'invisible':[('qty_moved','&lt;',1)]}"/>
+                    </field>
+<!--   ########################                  ended  ########                     -->
+           </field>
+        </record>
+
+        <record id="sale_shop_id_kt_pos" model="ir.ui.view">
+            <field name="name">sale.shop.inherit2</field>
+            <field name="model">sale.shop</field>
+            <field name="view_type">form</field>
+            <field name="inherit_id" ref="sale_stock.view_sale_shop_form_inherit"/>
+            <field name="arch" type="xml">
+ 
+             <field name="payment_default_id" position="after">
+             
+             <field name="pos_recipt_footer"/>
+             </field>
+             </field>
+ 	</record>
+
+ 	<!-- Credit Memo Sequence -->
+	<!--<record id="seq_credit_memo_code" model="ir.sequence.type">
+            <field name="name">Credit Memo</field>
+            <field name="code">credit memo</field>
+        </record>
+	
+	<record id="seq_credit_memo" model="ir.sequence">
+            <field name="name">Credit Memo</field>
+            <field name="code">credit memo</field>
+            <field name="prefix">IN/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>-->
+        
+    	<record model="ir.ui.view" id="view_pos_gift_order_tree">
+            <field name="name">Orders</field>
+            <field name="model">pos.order</field>
+            <field name="arch" type="xml">
+                <tree string="POS Orders" colors="blue:state == 'draft';gray:closed == True;black:closed == False" fonts="bold:closed == False">
+                    <field name="name"/>
+                    <field name="pos_reference"/>
+                    <field name="date_order"/>
+				    <field name="redeem_date"/>
+				    <field name="session_id" />
+                    <field name="user_id"/>
+                    <field name="amount_total" sum="Amount total"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state" invisible="1"/>
+		    		<field name="closed" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+	
+	<record model="ir.ui.view" id="view_gift_card_form">
+            <field name="name">pos.order</field>
+            <field name="model">pos.order</field>
+            <field name="arch" type="xml">
+                <form string="Point of Sale Orders" version="7.0">
+                    <header>
+                        <button name="%(point_of_sale.action_report_pos_receipt)d" string="Reprint" type="action" states="paid,done,invoiced"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,paid,done" statusbar_colors='{"cancel":"red"}'/>
+                    </header>
+                    <sheet>
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                        <field name="date_order" string="Issue Date"/>
+                        <field name="session_id" required="1"/>
+                        <field name="partner_id" on_change="onchange_partner_id(partner_id, context)" context="{'search_default_customer':1}" attrs="{'readonly': [('state','=','invoiced')]}"/>
+          		<field name="closed" attrs="{'invisible':[('gift_card','=',False)]}" readonly="1"/>
+          		<field name="redeem_date" attrs="{'invisible':[('gift_card','=',False)]}" readonly="1"/>
+			<field name="pos_reference"/>
+			<field name="gift_card" invisible="1"/>
+			<field name="return" invisible="1"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Products">
+                            <field name="lines" colspan="4" nolabel="1">
+                                <tree string="Order lines" editable="bottom">
+                                    <field name="product_id" on_change="onchange_product_id(parent.pricelist_id,product_id,qty,parent.partner_id)"/>
+                                    <field name="qty" on_change="onchange_qty(product_id, discount, qty, price_unit, context)"/>
+                                    <field name="price_unit" on_change="onchange_qty(product_id, discount, qty, price_unit, context)"/>
+                                    <field name="discount"  on_change="onchange_qty(product_id, discount, qty, price_unit, context)"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="price_subtotal_incl"/>
+                           
+<!--                                       <button name="" string="Scrap" type="object" states="paid,done,invoiced"/> -->
+									
+                                    
+                                </tree>
+                                <form string="Order lines" version="7.0">
+                                    <group col="4">
+                                        <field name="product_id" on_change="onchange_product_id(parent.pricelist_id,product_id,qty,parent.partner_id)"/>
+                                        <field name="qty" on_change="onchange_qty(product_id, discount, qty, price_unit, context)"/>
+                                        <field name="discount"  on_change="onchange_qty(product_id, discount, qty, price_unit, context)"/>
+                                        <field name="price_unit" on_change="onchange_qty(product_id, discount, qty, price_unit, context)"/>
+                                        <field name="price_subtotal" invisible="1"/>
+                                        <field name="price_subtotal_incl" invisible="1"/>
+                                        <field name="notice"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="order_total">
+                                <field name="amount_tax"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_total" />
+                                    <button name="button_dummy"
+                                        states="draft" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                                </div>
+                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        
+
+
+
+        <record model="ir.actions.act_window" id="action_pos_gift_card">
+            <field name="name">Gutschein</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!--<field name="view_id" ref="view_pos_gift_order_tree"/>-->
+            <field name="domain">[('sale_journal.code','ilike','gcard'),('return','=',False)]</field>
+        </record>
+
+	<record id="action_gift_card_form_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_gift_card_form"/>
+            <field name="act_window_id" ref="action_pos_gift_card"/>
+        </record>
+	<record id="action_gift_card_tree_view" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_pos_gift_order_tree"/>
+            <field name="act_window_id" ref="action_pos_gift_card"/>
+        </record>
+        
+        <menuitem name="Gutschein(Gift Voucher)" id="menu_point_of_sale_giftcard" parent="point_of_sale.menu_point_root" sequence="16" />
+         <menuitem
+            action="action_pos_gift_card"
+            id="menu_gift_card"
+            parent="menu_point_of_sale_giftcard" sequence="1"/>
+            
+    <record id="action_pos_pos_order_form_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_pos_pos_form_inherit_kt"/>
+            <field name="act_window_id" ref="point_of_sale.action_pos_pos_form"/>
+        </record>
+	<record id="action_pos_pos_order_tree_view" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="point_of_sale.view_pos_order_tree"/>
+            <field name="act_window_id" ref="point_of_sale.action_pos_pos_form"/>
+        </record>
+		
+		
+		
+		
+		
+    </data>
+</openerp>

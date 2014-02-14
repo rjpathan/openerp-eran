@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	   <record id="view_magneto_customer_import" model="ir.ui.view">
+            <field name="name">Import Customers</field>
+            <field name="model">magneto.customers.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import Customers">
+                <label string="This wizard will Import Customers from Magento." colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_customers_import" string="Import"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+       </record>
+       <act_window name="Import Customers"
+    	    res_model="magneto.customers.import"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_wizard_magneto_customer_import"/>
+			
+	</data>
+</openerp>

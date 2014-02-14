@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="view_wizard_magneto_credit_memo_import" model="ir.ui.view">
+            <field name="name">Import Credit memos</field>
+            <field name="model">magneto.creditmemo.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import Credit memos">
+                <label string="This wizard will Import Credit memos from Magento." colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_creditmemo_import" string="Import"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+        </record>
+        <act_window name="Import Credit memo"
+    	    res_model="magneto.creditmemo.import"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_wizard_magneto_credit_memo_import"/>
+			
+	</data>
+</openerp>

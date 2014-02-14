@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="view_account_invoice_from_inherit" model="ir.ui.view">
+		           <field name="name">account.invoice.form.inherit</field>
+		           <field name="model">account.invoice</field>
+		           <field name="inherit_id" ref="account.invoice_form"/>
+		           <field name="arch" type="xml">
+                          <xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="after">
+                          		<field name="display" invisible="1"/>
+	                           <field name="stock_update"  string="Return to Stock" on_change="get_other_location(location_dest_id)" 
+	                           attrs="{'invisible':[('display','=',False)]}" readonly="1"/>
+		                  </xpath>
+		                  <xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="after">
+		                  		<field name="scrapped" invisible="1"/>
+		                  		<button name="create_scrap_move" icon="terp-gtk-jump-to-ltr" type="object" attrs="{'invisible':['|',('display','=',False),('scrapped','=',True)]}"/>
+		                  </xpath>
+		           </field>
+        </record>
+    	<record id="view_account_invoice_supplierfrom_inherit" model="ir.ui.view">
+		           <field name="name">account.invoice.form.supp.inherit</field>
+		           <field name="model">account.invoice</field>
+		           <field name="inherit_id" ref="account.invoice_supplier_form"/>
+		           <field name="arch" type="xml">
+                          <xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="after">
+                          		<field name="display" invisible="1"/>
+	                           <field name="stock_update"  string="Return to Stock" on_change="get_other_location(location_dest_id)" 
+	                           attrs="{'invisible':[('display','=',False)]}" readonly="1"/>
+		                  </xpath>
+		                  <xpath expr="//field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="after">
+		                  		<field name="scrapped" invisible="1"/>
+		                  		<button name="create_scrap_move" icon="terp-gtk-jump-to-ltr" type="object" attrs="{'invisible':['|',('display','=',False),('scrapped','=',True)]}"/>
+		                  </xpath>
+		           </field>
+        </record>
+   		
+   		<record id="account_move_form_move_inherit" model="ir.ui.view">
+		           <field name="name">account.move.form.inherit</field>
+		           <field name="model">account.move</field>
+		           <field name="inherit_id" ref="account.view_move_form"/>
+		           <field name="arch" type="xml">
+                          <field name="period_id" position="after">
+                          	<field name="closed" attrs="{'invisible':[('credit_note','=',False)]}" readonly="1"/>
+                          	<field name="credit_note" invisible="1"/>
+                          </field>
+                           <field name="date" position="after">
+                          	<field name="closed_date" attrs="{'invisible':[('credit_note','=',False)]}" readonly="1"/>
+                          </field>
+                          <field name="to_check" position="before">
+                          	<field name="pos_reference" attrs="{'invisible':[('credit_note','=',False)]}" readonly="1"/>
+                          </field>
+		           </field>
+        </record>
+     
+         <record id="view_credit_memo_tree" model="ir.ui.view">
+            <field name="name">account.move.tree</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:closed == False" fonts="bold:closed == False" string="Journal Entries">
+                          	<field name="name"/>
+		                    <field name="ref"/>
+		                    <field name="date"/>
+		                    <field name="closed_date"/>
+		                    <field name="period_id"/>
+		                    <field name="journal_id"/>
+		                    <field name="partner_id"/>
+		                    <field name="amount" sum="Total Amount"/>
+		                    <field name="to_check"/>
+		                    <field name="state"/>
+		                    <field name="closed" invisible="1"/>
+                </tree>
+            </field>
+        </record>    
+        <record id="action_Credit_Memo_line" model="ir.actions.act_window">
+            <field name="name">Gutschrift</field>
+            <field name="res_model">account.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('credit_note','=','True')]</field>
+            <field name="context">{'default_credit_note':True}</field>
+            <field name="view_id" ref="view_credit_memo_tree"/>
+            <field name="search_view_id" ref="account.view_account_move_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a journal entry.
+              </p><p>
+                A journal entry consists of several journal items, each of
+                which is either a debit or a credit transaction.
+              </p><p>
+                OpenERP automatically creates one journal entry per accounting
+                document: invoice, refund, supplier payment, bank statements,
+                etc. So, you should record journal entries manually only/mainly
+                for miscellaneous operations.
+              </p>
+            </field>
+        </record>
+        
+        <menuitem name="Gutschrift( Credit Note)" id="menu_point_of_sale_creditmemo" parent="point_of_sale.menu_point_root" sequence="15" />
+         <menuitem
+            action="action_Credit_Memo_line"
+            id="menu_credit_memo"
+            parent="menu_point_of_sale_creditmemo" sequence="1"/>  
+        
+        <record id="pos_make_payment_from_inherit" model="ir.ui.view">
+		           <field name="name">pos.make.payment.inherit</field>
+		           <field name="model">pos.make.payment</field>
+		           <field name="inherit_id" ref="point_of_sale.view_pos_payment"/>
+		           <field name="arch" type="xml">
+                          <field name="journal_id" position="attributes">
+                          	<attribute name="context">{'pos_return_pay':'return','order_id':order_id}</attribute>
+                          </field>
+                          <field name="journal_id" position="after">
+                          	<field name="order_id" invisible="1"/>
+                          </field>
+		           </field>
+        </record>
+   		
+    </data>
+</openerp>

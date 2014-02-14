@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    	<record id="sale_order_inherit_form_kt" model="ir.ui.view">
+          <field name="name">sale_order_inherit.form</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="/form//notebook/page//field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+              		<attribute name="on_change">onchange_discount(price_unit,discount,discount_amount)</attribute>
+              </xpath>
+              <xpath expr="/form//notebook/page//field[@name='order_line']/tree/field[@name='discount']" position="after">
+              		<field name="discount_amount"/>
+              </xpath>
+              <xpath expr="/form//notebook/page//field[@name='order_line']/form//field[@name='discount']" position="attributes">
+              		<attribute name="on_change">onchange_discount(price_unit,discount,discount_amount)</attribute>
+              </xpath>
+              <xpath expr="/form//notebook/page//field[@name='order_line']/form//field[@name='discount']/.." position="after">
+              		<field name="discount_amount"/>
+              </xpath>
+          </field>
+	  </record>  
+	  
+    
+    </data>
+</openerp>

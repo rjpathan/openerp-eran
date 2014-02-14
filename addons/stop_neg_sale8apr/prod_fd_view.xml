@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+ 
+         
+ <record id="procuct_ktr012333" model="ir.ui.view">
+            <field name="name">Product.add.inherit</field>
+            <field name="model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="inherit_id" ref="stock.view_normal_procurement_locations_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//group[@string='Stock and Expected Variations']" position="inside">
+             <label for="check_box"/>
+                   <div>
+                 <field name="check_box"/>
+                 </div>
+                 </xpath>
+             </field>
+ </record>
+ <record id="sale_shop_id_kt123" model="ir.ui.view">
+            <field name="name">sale.shop.inherit</field>
+            <field name="model">sale.shop</field>
+            <field name="view_type">form</field>
+            <field name="inherit_id" ref="sale_stock.view_sale_shop_form_inherit"/>
+            <field name="arch" type="xml">
+ 
+             <field name="payment_default_id" position="after">
+             
+             <field name="address_id"/>
+             </field>
+             </field>
+ 
+ 
+ </record>
+ 
+<!--  <record id="pos_session_id_kt123" model="ir.ui.view"> -->
+<!--             <field name="name">pos.session.inherit</field> -->
+<!--             <field name="model">pos.session</field> -->
+<!--             <field name="view_type">form</field> -->
+<!--             <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/> -->
+<!--             <field name="arch" type="xml"> -->
+ 
+<!--              <field name="cash_register_balance_start" position="replace"> -->
+             
+<!--              <field name="cash_register_balance_start"/> -->
+<!--              </field> -->
+<!--              </field> -->
+ 
+ 
+<!--  </record> -->
+ 
+  <record model="ir.ui.view" id="pos_config_form_kt_inherit">
+            <field name="name">pos.config.inherit.view</field>
+            <field name="model">pos.config</field>
+             <field name="view_type">form</field> 
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_form"/> 
+            <field name="arch" type="xml">
+                <field name="shop_id" position="after">
+                <field name="user_id"/>
+                </field>
+                
+                
+                
+                </field>
+ </record>
+<!-- code for filtering of the list according to manager -->
+ 	<record model="ir.actions.act_window" id="point_of_sale.action_pos_session">
+            <field name="name">All Sessions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.session</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'user_id':uid}</field>
+            <field name="search_view_id" ref="point_of_sale.view_pos_session_search" />
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to start a new session.
+              </p><p>
+                A session is a period of time, usually one day, during which
+                you sell through the point of sale. The user has to check the
+                currencies in your cash registers at the beginning and the end
+                of each session.
+              </p><p>
+                Note that you should better to use the menu <i>Your Session</i>
+                to quickly open a new session.
+              </p>
+            </field>
+        </record>
+       
+       <record model="ir.actions.act_window" id="point_of_sale.action_pos_config_pos">
+            <field name="name">Point of Sales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.config</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'user_id':uid}</field>
+            <field name="search_view_id" ref="point_of_sale.view_pos_config_search" />
+        </record>
+        
+        
+    </data>
+</openerp>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <record id="view_product_form_inherit" model="ir.ui.view">
+            <field name="name">view.product.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="arch" type="xml">
+            	<field name="price_margin" position="after">
+            	        <field name="magento_attr_id" />
+            	</field>
+            	<xpath expr="//group[@string='Sale Conditions']" position="inside">
+            		<field name="sale_journal" domain="[('type','=','sale')]" />
+            	</xpath>
+            </field>
+        </record>
+        
+       <!--  <record id="view_product_stock_form_inherit" model="ir.ui.view">
+            <field name="name">view.product.stock.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock.view_normal_procurement_locations_form" />
+            <field name="arch" type="xml">
+            	<xpath expr="//group[@string='Stock and Expected Variations']" position="after">
+            		<group string="Stock By Location">
+            			<field name="user_shop" invisible="1"/>
+            			<field name="qty_available_freiburg" attrs="{'invisible':[('user_shop','!=','admin'),('user_shop','!=','Freiburg')]}"/>
+            			<field name="qty_available_konstanz" attrs="{'invisible':[('user_shop','!=','admin'),('user_shop','!=','Konstanz')]}"/>
+            			<field name="qty_available_webshop" attrs="{'invisible':[('user_shop','!=','admin'),('user_shop','!=','Web shop')]}"/>
+            			<field name="qty_available_stock" attrs="{'invisible':[('user_shop','!=','admin')]}"/>
+            		</group>
+            	</xpath>
+            	
+            </field>
+        </record>  -->
+        
+          <record id="view_product_tempate_form_inherit" model="ir.ui.view">
+            <field name="name">view.product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product_variant_multi.product_variant_multi_product_template_form_view" />
+            <field name="arch" type="xml">
+            	<field name="export_to_magento" position="after">
+            	        <field name="magento_attr_id" />
+            	</field>
+                 </field>
+        </record>
+</data>
+</openerp>
+        

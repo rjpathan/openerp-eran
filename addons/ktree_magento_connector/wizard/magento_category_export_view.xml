@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="view_wizard_magneto_category_export" model="ir.ui.view">
+            <field name="name">Export Category</field>
+            <field name="model">magneto.category.export</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export Category">
+                <label string="This wizard will Export Category to Magento." colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_category_export" string="Export"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+        </record>
+        <act_window name="Export Category"
+    	    res_model="magneto.category.export"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_wizard_magneto_category_export"/>
+			
+	</data>
+</openerp>

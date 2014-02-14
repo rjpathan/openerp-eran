@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_report_pos_order_extended_tree" model="ir.ui.view">
+            <field name="name">report.pos.order.extended.tree</field>
+            <field name="model">report.pos.order.extended</field>
+            <field name="arch" type="xml">
+                <tree string="Point of Sale Analysis" create="false">
+                    <field name="date" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="year" invisible="1"/>
+                    <field name="day" invisible="1"/>
+                    <field name="month" invisible="1"/>
+                    <field name="partner_id" invisible="1"/>
+					<field name="supplier" invisible="1"/>
+					<field name="template_id" invisible="1"/>
+                    <field name="product_id" invisible="1"/>
+                    <field name="shop_id" invisible="1"/>
+                    <field name="dimension_id" invisible="1"/>
+                    <field name="pvdo_id" invisible="1"/> 
+                    <field name="multi_variants" invisible="1"/>
+                    <field name="company_id" invisible="1" groups="base.group_multi_company"/>
+                    <field name="nbr" sum="# of Lines"/>
+                    <field name="product_qty" sum="# of Qty"/>
+                    <field name="total_discount" sum="Total Discount"/>
+                    <field name="price_total" sum="Total Price"/>
+					<field name="margin" sum="Margin" />
+                </tree>
+            </field>
+        </record>
+
+		<record id="view_pos_orer_graph" model="ir.ui.view">
+			 <field name="name">report.pos.order.extended.graph</field>
+			 <field name="model">report.pos.order.extended</field>
+			 <field name="arch" type="xml">
+				 <graph string="POS Analysis" type="bar">
+				     <field name="product_id"/>
+				     <field name="price_total"/>
+					 <field name="partner_id"/>
+				 </graph>
+			 </field>
+		</record>
+
+        <record id="view_report_pos_order_extended_search" model="ir.ui.view">
+            <field name="name">report.pos.order.extended.search</field>
+            <field name="model">report.pos.order.extended</field>
+            <field name="arch" type="xml">
+                <search string="Point of Sale Analysis">
+                    <field name="date"/>
+                    <separator/>
+                    <filter icon="terp-go-year" string="Year" name="year" domain="[('year','=',time.strftime('%%Y'))]" help="POS ordered created during current year"/>
+                    <separator/>
+                    <filter icon="terp-go-today" string="Today" name="today" domain="[('date','=', time.strftime('%%Y-%%m-%%d'))]"
+                         help="POS ordered created by today"/>
+                    <separator/>
+                    <filter icon="terp-personal" string="My Sales" help="My Sales" domain="[('user_id','=',uid)]"/>
+                    <filter icon="terp-personal" string="Variant Product" help="IS a Multi Variant" domain="[('multi_variants','=',True)]"/>
+                    <filter icon="terp-personal" string="Simple Product" help="IS a Simple product" domain="[('multi_variants','=',False)]"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Salesperson" icon="terp-personal" name="User" context="{'group_by':'user_id'}"/>
+                        <filter string="Supplier" icon="terp-personal" context="{'group_by':'supplier'}"/>
+                        <filter string="Product" name="category_product" icon="terp-accessories-archiver" context="{'group_by':'product_id'}"/>
+                        <filter string="Dimension Type" name="dimension_type" icon="terp-accessories-archiver" context="{'group_by':'dimension_id'}"/>
+                        <filter string="Option"  name="option_type" icon="terp-accessories-archiver" context="{'group_by':'pvdo_id'}"/>
+                        <filter string="Day" icon="terp-go-today" context="{'group_by':'day'}" help="Is multivariants"/>
+                        <filter string="Period" icon="terp-go-month" context="{'group_by':'month'}" help="Month of order date"/>
+                        <filter string="Year" icon="terp-go-year" context="{'group_by':'year'}" help="Year of order date"/>
+						<filter string="Template ID" icon="terp-accessories-archiver" context="{'group_by':'template_id'}" help="Template used in product"/>
+                    </group>
+                </search>sdgsbsfhbfds
+            </field>
+        </record>
+
+        <record id="action_report_pos_order_all" model="ir.actions.act_window">
+            <field name="name">POS Analysis</field>
+            <field name="res_model">report.pos.order.extended</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,graph</field>
+            <field name="search_view_id" ref="view_report_pos_order_extended_search"/>
+            <field name="context">{'search_default_category_product':1, 'search_default_dimension_type':1, 'search_default_option_type':1, 'group_by':[], 'group_by_no_leaf':1,}</field>
+        </record>
+
+        <menuitem action="action_report_pos_order_all" id="menu_report_pos_order_extended_all" parent="point_of_sale.menu_point_rep" sequence="3"/>
+    </data>
+</openerp>

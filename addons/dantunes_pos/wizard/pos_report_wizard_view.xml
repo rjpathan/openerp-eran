@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	<record id="daily_report_wizard_view_form" model="ir.ui.view">
+            <field name="name">daily_report_wizard_form</field>
+            <field name="model">daily.pos.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Daily POS Report" version="7.0">
+                            <group>
+                            	<group>
+                            		<field name="pos_shop"/>
+                            	</group>
+                            	<group>
+                            		<field name="date"/>
+                            	</group>
+                            </group>
+                            <footer>
+                            <button name="daily_report" string="Print Report" type="object" class="oe_highlight"/>
+                            or
+                    		<button string="Cancel" class="oe_link" special="cancel"/>
+                            </footer>
+                </form>
+            </field>
+      </record>
+      <record id="monthly_report_wizard_view_form" model="ir.ui.view">
+            <field name="name">monthly_report_wizard_form</field>
+            <field name="model">monthly.pos.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Monthly POS Report" version="7.0">
+                            <group>
+                            	<group>
+                            		<field name="pos_shop"/>
+                            	</group>
+                            	<group>
+                            		<group>
+                            			<field name="month"/>
+                            			<field name="year"/>
+                            		</group>
+                            	</group>
+                            </group>
+                            <footer>
+                            <button name="monthly_report" string="Print Report" type="object" class="oe_highlight"/>
+                            or
+                    		<button string="Cancel" class="oe_link" special="cancel"/>
+                            </footer>
+                </form>
+            </field>
+      </record>  	
+      
+      
+      
+      <record id="action_daily_pos_report_wizard_kt" model="ir.actions.act_window">
+            <field name="name">Daily Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">daily.pos.wizard</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form</field>
+            <field name="view_id" ref="daily_report_wizard_view_form"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+       </record>
+       <record id="action_monthly_pos_report_wizard_kt" model="ir.actions.act_window">
+            <field name="name">Monthly Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">monthly.pos.wizard</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form</field>
+            <field name="view_id" ref="monthly_report_wizard_view_form"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+        
+	   <record id="magento_report_view_form" model="ir.ui.view">
+            <field name="name">sale_order_magento_form</field>
+            <field name="model">magento.report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Magento Report" version="7.0">
+                            <group>
+                            <group>
+                           <div  class="oe_title">
+                           <h2><label  string="Web Shop"/></h2>
+                            </div>
+                            </group>
+                            <group>
+                            			<field name="date_id"/>
+                            	</group>
+                            	</group>
+                            <footer>
+                            <button name="report_magento" string="Magento Report" type="object" class="oe_highlight"/>
+                            or
+                    		<button string="Cancel" class="oe_link" special="cancel"/>
+                            </footer>
+                </form>
+            </field>
+      </record>  	
+        
+      
+         <record id="daily_magento_report_wizard_kt" model="ir.actions.act_window">
+            <field name="name">Daily Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">magento.report</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form</field>
+            <field name="view_id" ref="magento_report_view_form"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+        
+         <record id="magento_report_month_view_form" model="ir.ui.view">
+            <field name="name">sale_order_magento_form</field>
+            <field name="model">magento.report.month</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Magento Report" version="7.0">
+                            <group>
+                            <group>
+                          <h2><label string="web shop"/></h2>
+                            </group>
+                            <group>
+                             		<field name="month_id"/>
+                             		<field name="year_id"/>
+                             		
+                             		
+                            	</group>
+                            	</group>
+                            <footer>
+                            <button name="magento_month" string="Report"  type="object" class="oe_highlight"/>
+                            or
+                    		<button string="Cancel" class="oe_link" special="cancel"/>
+                            </footer>
+                </form>
+            </field>
+      </record>  
+      
+        <record id="monthly_magento_report_wizard_kt" model="ir.actions.act_window">
+            <field name="name"> Monthly Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">magento.report.month</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form</field>
+            <field name="view_id" ref="magento_report_month_view_form"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+      
+        <record id="product_report_view_form" model="ir.ui.view">
+            <field name="name">product_form</field>
+            <field name="model">product.report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product Report" version="7.0">
+                            <group>
+                            <group>
+                           <field name="shops_id"/>
+                            </group>
+                            <group>
+                            			<field name="date_id"/>
+                            	</group>
+                            	</group>
+                            <footer>
+                            <button name="report_product" string="Print Report" type="object" class="oe_highlight"/>
+                            or
+                    		<button string="Cancel" class="oe_link" special="cancel"/>
+                            </footer>
+                </form>
+            </field>
+      </record>  	
+      
+      <record id="product_report_month_view_form" model="ir.ui.view">
+            <field name="name">product_form</field>
+            <field name="model">monthly.report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product Report" version="7.0">
+                            <group>
+                            <group>
+                           <field name="shops_id"/>
+                            </group>
+                            <group>
+                             <field name="month_id"/>
+                             <field name="year_id"/>
+                            	</group>
+                            	</group>
+                            <footer>
+                            <button name="report_product" string="Print Report" type="object" class="oe_highlight"/>
+                            or
+                    		<button string="Cancel" class="oe_link" special="cancel"/>
+                            </footer>
+                </form>
+            </field>
+      </record>  	
+      <!-- Credit Memo Report --> 
+      <record id="credit_report_month_view_form" model="ir.ui.view">
+            <field name="name">credit_form</field>
+            <field name="model">credit.report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Credit Note Report" version="7.0">
+                            <group >
+                                <group>
+                                <field name="period_ids" attrs="{'invisible':[('date_id','!=',False)]}"/>
+                                </group>
+                                <group>
+                                <field name="date_id" attrs="{'invisible':[('period_ids','!=',False)]}"/>
+                                <field name="date_end" attrs="{'invisible':['|',('period_ids','!=',False),('date_id','==',False)]}"/>
+                                </group>
+                            </group>
+                             <group>
+                             <field name="status"/>
+                            </group>
+                            <footer>
+                            <button name="report_credit" string="Print Report" type="object" class="oe_highlight"/>
+                            or
+                    		<button string="Cancel" class="oe_link" special="cancel"/>
+                            </footer>
+                </form>
+            </field>
+      </record>  	
+      
+      
+      
+      
+      <record id="action_product_pos_report_wizard_kt" model="ir.actions.act_window">
+            <field name="name">Daily Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.report</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form</field>
+            <field name="view_id" ref="product_report_view_form"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+       </record>
+        
+        
+        <record id="action_product_month_report_wizard_kt" model="ir.actions.act_window">
+            <field name="name">Monthly Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">monthly.report</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form</field>
+            <field name="view_id" ref="product_report_month_view_form"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+       </record>
+       <!-- Credit Memo Report --> 
+       <record id="action_credit_month_report_wizard_kt" model="ir.actions.act_window">
+            <field name="name">Credit Note Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.report</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form</field>
+            <field name="view_id" ref="credit_report_month_view_form"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+       </record>
+       
+       <!-- Gift Card View and Action --> 
+       <record id="gift_voucher_view_form" model="ir.ui.view">
+            <field name="name">Gift Voucher</field>
+            <field name="model">gift.voucher</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Gift Voucher Report" version="7.0">
+                            <group >
+                                <group>
+                                <field name="period_ids" attrs="{'invisible':[('date_id','!=',False)]}"/>
+                                </group>
+                                <group>
+                                <field name="date_id" attrs="{'invisible':[('period_ids','!=',False)]}"/>
+                                <field name="date_end" attrs="{'invisible':['|',('period_ids','!=',False),('date_id','==',False)]}"/>
+                                </group>
+                            </group>
+                             <group>
+                             <field name="status"/>
+                            </group>
+                            <footer>
+                            <button name="report_gift_voucher" string="Print Report" type="object" class="oe_highlight"/>
+                            or
+                    		<button string="Cancel" class="oe_link" special="cancel"/>
+                            </footer>
+                </form>
+            </field>
+      </record>
+      
+      <record id="action_gift_voucher_report_wizard_kt" model="ir.actions.act_window">
+            <field name="name">Gift Voucher Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">gift.voucher</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form</field>
+            <field name="view_id" ref="gift_voucher_view_form"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+       </record>           
+      
+        
+        
+<!-- 		<menuitem id="menu_pos_reports_kt" parent="account.menu_finance" name="Point Of Sale Report" sequence="4"/> -->
+<!-- 		<menuitem parent="menu_pos_reports_kt" id="menu_pos_daily_report_kt" action="action_daily_pos_report_wizard_kt" sequence="1"/> -->
+<!-- 		<menuitem parent="menu_pos_reports_kt" id="menu_pos_monthly_report_kt" action="action_monthly_pos_report_wizard_kt" sequence="2"/>    -->
+		
+		<menuitem id="product_reports_kt" parent="account.menu_finance" name="Point of Sale Reports" sequence="4"/>	       
+		
+         <menuitem parent="product_reports_kt" id="product_report_kt123" action="action_product_pos_report_wizard_kt" sequence="1"/>
+         
+          <menuitem parent="product_reports_kt" id="monthly_product_kt123" action="action_product_month_report_wizard_kt" sequence="2"/>
+         
+         
+         
+         <menuitem id="magento_reports_kt" parent="account.menu_finance" name="Magento Reports" sequence="4"/>
+		<menuitem parent="magento_reports_kt" id="magento_report_kt123" action="daily_magento_report_wizard_kt" sequence="1"/>   
+	
+		<menuitem parent="magento_reports_kt" id="monthly_report_kt123" action="monthly_magento_report_wizard_kt" sequence="2"/>
+		 <!-- Credit Memo Report -->     
+         <menuitem id="credit_reports_kt" parent="account.menu_finance" name="Credit Note Reports" sequence="4"/>
+         <menuitem parent="credit_reports_kt" id="credit_report_kt123" action="action_credit_month_report_wizard_kt" sequence="1"/> 
+         
+         <!-- Gift Voucher Report -->     
+         <menuitem id="gift_voucher_reports_kt" parent="account.menu_finance" name="Gift Voucher Reports" sequence="4"/>
+         <menuitem parent="gift_voucher_reports_kt" id="gift_voucher_report_kt" action="action_gift_voucher_report_wizard_kt" sequence="1"/>
+         
+         
+         
+         
+</data>
+</openerp>

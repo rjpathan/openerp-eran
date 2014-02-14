@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_events_ktree"
+                name="Events" parent="mail.mail_my_stuff"
+                sequence="15" action="base_calendar.action_view_event"/>
+
+        <record id="view_sale_order_tree_inherit" model="ir.ui.view">
+            <field name="name">sale_order_tree_view_inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+            	<field name="state" position="after">
+            	        <field name="has_attachment" invisible="1"/>
+            			<button name="email_attach"  attrs="{'invisible':[('has_attachment','=',False)]}" icon="attachment1"/>
+            	</field>
+                 </field>
+        </record>
+
+	 <record id="view_sale_quotation_tree_inherit" model="ir.ui.view">
+            <field name="name">sale_quotation_tree_view_inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
+            <field name="arch" type="xml">
+            	<field name="state" position="after">
+            	         <field name="has_attachment" invisible="1"/>
+            			<button name="email_attach" attrs="{'invisible':[('has_attachment','=',False)]}" icon="attachment1" />
+            	</field>
+                 </field>
+        </record>
+        
+        
+        <record id="view_mail_message_inherit" model="ir.ui.view">
+            <field name="name">mail.compose.message.inherit</field>
+            <field name="model">mail.compose.message</field>
+            <field name="inherit_id" ref="mail.email_compose_message_wizard_form" />
+            <field name="arch" type="xml">
+            	<field name="partner_ids" position="before">
+                    <group>
+            	         <field name="boolean"/>
+                   </group>
+            	</field>
+                 </field>
+        </record>
+        
+        
+        <record id="view_order_form_inherti_kt" model="ir.ui.view">
+           <field name="name">sale.order.form.editable.list</field>
+           <field name="model">sale.order</field>
+           <field name="inherit_id" ref="sale.view_order_form"/>
+           <field name="arch" type="xml">
+           <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']" position="after">
+            	         <field name="location_id"/>
+            	</xpath>
+                 </field>
+        </record>
+        
+<!--     For credit memo menu at sales   -->
+           <record id="action_invoice_tree3_ktree" model="ir.actions.act_window">
+            <field name="name">Credit Memo</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_refund'),('magento_creditmemo_id','!=',False)]</field>
+            <field name="context">{'default_type':'out_refund', 'type':'out_refund', 'journal_type': 'sale_refund'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a customer refund. 
+              </p><p>
+                A refund is a document that credits an invoice completely or
+                partially.
+              </p><p>
+                Instead of manually creating a customer refund, you
+                can generate it directly from the related customer invoice.
+              </p>
+            </field>
+        </record>
+        
+         <record id="action_invoice_tree3_view1_ktree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_invoice_tree3_ktree"/>
+        </record>
+        
+            
+        <menuitem action="action_invoice_tree3_ktree" id="menu_sale_order_creditmemo" parent="base.menu_sales" sequence="20" groups="base.group_sale_salesman,base.group_sale_manager"/>
+        
+        
+<!--          <record id="action_picking_tree4_ktree" model="ir.actions.act_window"> -->
+<!--             <field name="name">Webshop Return</field> -->
+<!--             <field name="res_model">stock.picking</field> -->
+<!--             <field name="type">ir.actions.act_window</field> -->
+<!--             <field name="view_type">form</field> -->
+<!--             <field name="view_mode">tree,form,calendar</field> -->
+<!--             <field name="domain">[('type','=','in'),('magento_creditmemo_id','!=',0)]</field> -->
+<!--             <field name="context">{'contact_display': 'partner_address', 'default_type': 'in'}</field> -->
+<!--             <field name="search_view_id" ref="stock.view_picking_in_search"/> -->
+<!--             <field name="help" type="html"> -->
+<!--               <p class="oe_view_nocontent_create"> -->
+<!--                 Click to create an incoming shipment.  -->
+<!--               </p><p> -->
+<!--                 The Incoming Shipments is the list of all orders you will -->
+<!--                 receive from your suppliers. An incoming shipment contains a -->
+<!--                 list of products to be received according to the original -->
+<!--                 purchase order. -->
+<!--               </p> -->
+<!--             </field> -->
+<!--         </record> -->
+<!--         <record id="action_invoice_tree5_view1_ktree" model="ir.actions.act_window.view"> -->
+<!--             <field eval="1" name="sequence"/> -->
+<!--             <field name="view_mode">tree</field> -->
+<!--             <field name="act_window_id" ref="action_picking_tree4_ktree"/> -->
+<!--         </record> -->
+        
+<!--          <menuitem action="action_picking_tree4_ktree" id="menu_action_picking_tree4_ktree" parent="base.menu_sales" -->
+<!--              sequence="9"/> -->
+         
+            <record id="view_stock_picking_inherti_kt" model="ir.ui.view">
+		           <field name="name">stock.move.in.form</field>
+		           <field name="model">stock.move</field>
+		           <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+		           <field name="arch" type="xml">
+<!--		             <field name="move_lines" context="{'address_in_id': partner_id, 'form_view_ref':'view_move_picking_form', 'tree_view_ref':'view_move_picking_tree', 'picking_type': 'internal'}" position="inside">-->
+                          <field name="location_dest_id" position="before">
+                                   <field name="magento_increment_id" invisible="1"/>
+		                           <field name="stock_update"  string="Return to Stock" on_change="get_other_location(location_dest_id)" attrs="{'invisible':[('magento_increment_id','=',False)]}"/>
+		                   </field>
+		           </field>
+        </record>
+<!--        -->
+         <record id="view_stock_move_form_inherti_kt" model="ir.ui.view">
+		           <field name="name">stock.move.in.form</field>
+		           <field name="model">stock.move</field>
+		           <field name="inherit_id" ref="stock.view_move_form"/>
+		           <field name="arch" type="xml">
+<!--		             <field name="move_lines" context="{'address_in_id': partner_id, 'form_view_ref':'view_move_picking_form', 'tree_view_ref':'view_move_picking_tree', 'picking_type': 'internal'}" position="inside">-->
+                          <field name="location_dest_id" position="before">
+                                   <field name="magento_increment_id" invisible="1"/>
+		                           <field name="stock_update" on_change="get_other_location(location_dest_id)" attrs="{'invisible':[('magento_increment_id','=',False)]}"/>
+		                   </field>
+		           </field>
+        </record>
+         
+         
+    </data>
+</openerp>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+    
+        
+         <!--        Improt products screen -->
+         <record model="ir.ui.view" id="import_product_kt">
+            <field name="name">Import Product</field>
+            <field name="model">product.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product Import">
+                <field name="test"  invisible="1"/>
+                <field name="datas" filename="datas_fname" attrs="{'invisible': [('test','=',1)]}"/>
+                 <field name="datas_fname"  attrs="{'invisible': [('test','=',1)]}"/>
+                 <button name="import_flash_data" string="Import Flash Data" type="object" colspan="2" attrs="{'invisible': [('test','=',1)]}"/>
+               </form>
+            </field>
+            </record>
+   
+   
+    <record id="action_import_Product" model="ir.actions.act_window">
+            <field name="name">Product Import</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.import</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="import_product_kt"/>
+        </record>
+   
+   <menuitem  action="action_import_Product"  id="Product_import_menu" parent="product.prod_config_main" name="Map Magento_id" 
+            />
+    
+</data>
+</openerp>

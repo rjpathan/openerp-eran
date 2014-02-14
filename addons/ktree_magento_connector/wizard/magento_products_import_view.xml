@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="view_wizard_magneto_products_import" model="ir.ui.view">
+            <field name="name">Import products</field>
+            <field name="model">magneto.products.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import products">
+                <label string="This wizard will Import Products from Magento. It will first Import Categories." colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_products_import" string="Import"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+        </record>
+        <act_window name="Import Products"
+    	    res_model="magneto.products.import"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_wizard_magneto_products_import"/>
+			
+	</data>
+</openerp>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <openerp>
+     <data>         
+            <record model="ir.ui.view" id="product_product_tree_view_inherited">
+	            <field name="name">product.product.tree.inherit</field>
+	            <field name="model">product.product</field>
+	            <field name="type">tree</field>
+	            <field name="inherit_id" ref="product.product_product_tree_view"/>
+	            <field name="arch" type="xml">
+	                <field name="virtual_available" position="after">
+	                    <field name="qty_magento"/>
+	                </field>
+	            </field>
+            </record>
+            <record model="ir.ui.view" id="product_product_tree_view_inherited">
+	            <field name="name">product.product.tree.inherit</field>
+	            <field name="model">product.product</field>
+	            <field name="type">tree</field>
+	            <field name="inherit_id" ref="product.product_product_tree_view"/>
+	            <field name="arch" type="xml">
+	                <field name="variants" position="after">
+	                    <field name="export_to_magento"/>
+	                </field>
+	            </field>
+            </record>
+            <record model="ir.ui.view" id="product_normal_stock_form_inherit_inherit">
+	            <field name="name">product.normal.stock.form.inherit.inherit</field>
+	            <field name="model">product.product</field>
+	            <field name="type">form</field>
+	            <field name="inherit_id" ref="stock.view_normal_property_acc_form"/>
+	            <field name="arch" type="xml">
+	                <field name="virtual_available" position="after">
+	                    <field name="qty_magento"/>
+	                </field>
+	                <field name="sale_ok" position="before">
+	                         <div class="oe_edit_only">
+                                <label for="magento_name" string="Alias Name" />
+                            </div>
+	                         <field name="magento_name" />
+	                </field>
+	            </field>
+            </record>
+            <record model="ir.ui.view" id="product_normal_form_view_inherited">
+	            <field name="name">product.normal.form.inherit.inherit</field>
+	            <field name="model">product.product</field>
+	            <field name="type">form</field>
+	            <field name="inherit_id" ref="product.product_normal_form_view"/>
+	            <field name="arch" type="xml">
+	                <field name="variants" position="after">
+	                    <field name="export_to_magento"/>
+	                </field>
+	            </field>
+             </record>
+             <record model="ir.ui.view" id="product_category_form_view_magneto_syn">
+	            <field name="name">product.category.magneto.syn.form.</field>
+	            <field name="model">product.category</field>
+	            <field name="type">form</field>
+	            <field name="inherit_id" ref="product.product_category_form_view"/>
+	            <field name="arch" type="xml">
+                  <data>
+                    <field name="type"  position="after">
+                      <field name="update_to_magneto" />
+                    </field>   
+                  </data>
+                </field>
+             </record>
+             
+           <record id="view_product_lines_form" model="ir.ui.view">
+			<field name="name">product.lines.form</field>
+			<field name="model">product.lines</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Product lines">
+					
+							<group col="4" colspan="4">
+								<field name="product_id" colspan="2" />
+								<field name="product_code" colspan="2" />
+							</group>
+							<group col="4" colspan="4">
+								<field name="package_qty" colspan="2" />
+								<field name="product_uom" colspan="2" />
+							</group>
+							<group col="4" colspan="4">
+								<field name="sale_price" colspan="2" />
+								
+							</group>
+						
+					
+				</form>
+			</field>
+		</record>
+             
+             <record id="view_product_lines_tree" model="ir.ui.view">
+			<field name="name">product.lines.tree</field>
+			<field name="model">product.lines</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Product lines">
+					<field name="product_id" select="1" />
+					<field name="product_code" />
+					<field name="package_qty" select="2" />
+					<field name="product_uom" />
+					<field name="sale_price" select="2" />
+				</tree>
+			</field>
+		</record>
+		
+             <record id="view_product_form_line" model="ir.ui.view">
+			<field name="name">product.product.lines</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_normal_form_view" />
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<xpath expr="/form/sheet/notebook" position="inside">
+					<page string="Bundle SubProducts">
+						<field name="product_lines" nolabel="1" />
+					</page>
+				</xpath>
+			</field>
+		</record>
+		
+		
+		  <record model="ir.ui.view" id="account_form_inherit_inherit">
+	            <field name="name">account.tax.form.inherit.inherit</field>
+	            <field name="model">account.tax</field>
+	            <field name="type">form</field>
+	            <field name="inherit_id" ref="account.view_tax_form"/>
+	            <field name="arch" type="xml">
+	                <field name="active" position="after">
+	                    <field name="magento_id"/>
+	                </field>
+	            </field>
+            </record>
+		
+		 <record model="ir.ui.view" id="sale_order_from_view_inherited">
+	            <field name="name">sale.order.inherit</field>
+	            <field name="model">sale.order</field>
+	            <field name="type">form</field>
+	           <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+               <field name="arch" type="xml">
+	                 <field name="order_policy" on_change="shipping_policy_change(order_policy)" position="after">
+	                   <field name="magento_increment_id" invisible="1"/>
+	                    <field name="payment_method_string" attrs="{'invisible':[('magento_increment_id','=',False)]}"/>
+	                    <field name="payment_me" attrs="{'invisible':[('magento_increment_id','=',False)]}"/>
+	                </field>
+              <xpath expr="/form//notebook/page//field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+             		<attribute name="on_change">onchange_discount(price_unit,discount,discount_amount)</attribute>
+              </xpath>
+              <xpath expr="/form//notebook/page//field[@name='order_line']/tree/field[@name='discount']" position="after">
+              		<field name="discount_amount"/>
+              </xpath>
+              <xpath expr="/form//notebook/page//field[@name='order_line']/form//field[@name='discount']" position="attributes">
+              		<attribute name="on_change">onchange_discount(price_unit,discount,discount_amount)</attribute>
+              </xpath>
+              <xpath expr="/form//notebook/page//field[@name='order_line']/form//field[@name='discount']/.." position="after">
+              		<field name="discount_amount"/>
+              </xpath>
+	            </field>
+            </record>
+     </data>
+  </openerp>           
+   
